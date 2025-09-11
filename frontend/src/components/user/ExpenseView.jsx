@@ -16,7 +16,7 @@ function ExpenseView({ expense }) {
   );
 
   return (
-    <div className=" hover:bg-neutral-100 hover:cursor-pointer relative w-[calc(33%-16px)] mx-auto bg-white rounded-2xl shadow-lg p-5 flex flex-col items-center gap-4 hover:shadow-xl transition">
+    <div className=" dark:bg-neutral-900 dark:text-neutral-100 hover:bg-neutral-100 hover:cursor-pointer relative w-[calc(33%-16px)] mx-auto bg-white rounded-2xl shadow-lg p-5 flex flex-col items-center gap-4 hover:shadow-xl transition">
       {/* Image/Icon */}
       <img
         src="https://img.icons8.com/color/96/money-bag.png"

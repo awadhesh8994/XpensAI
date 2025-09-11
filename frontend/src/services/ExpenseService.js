@@ -1,12 +1,15 @@
 import { serverBaseURL } from "../config/config";
 import axios from "axios";
 
-export const getExpenses = async () => {
-  const response = await axios.get(`${serverBaseURL}/expenses`, {
-    headers: {
-      Authorization: "123456",
-    },
-  });
+export const getExpenses = async (minPrice = "", maxPrice = "") => {
+  const response = await axios.get(
+    `${serverBaseURL}/expenses?minPrice=${minPrice}&maxPrice=${maxPrice}`,
+    {
+      headers: {
+        Authorization: "123456",
+      },
+    }
+  );
 
   return response.data;
 };
