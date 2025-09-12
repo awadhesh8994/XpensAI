@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
+import { MdDelete } from "react-icons/md";
 
 const menuItems = [
   { name: "Home", icon: <FaHome />, path: "/dashboard" },
@@ -19,6 +20,7 @@ const menuItems = [
   },
   { name: "View Expense", icon: <FaListUl />, path: "/dashboard/expenses" },
   { name: "Assistant", icon: <FaRobot />, path: "/dashboard/assistant" },
+  { name: "Recycle Bin", icon: <MdDelete />, path: "/dashboard/recycle" },
   { name: "Rohit", icon: <FaUser />, path: "/user" },
   { name: "Logout", icon: <FaLongArrowAltUp />, path: "/user" },
 ];

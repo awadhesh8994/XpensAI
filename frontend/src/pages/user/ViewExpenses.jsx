@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getExpenses } from "../../services/ExpenseService";
 import { toast } from "react-toastify";
-import { MdInfo } from "react-icons/md";
+import { MdInfo, MdTimer } from "react-icons/md";
 import ExpenseView from "../../components/user/ExpenseView";
 import { Button, TextInput, Datepicker, Label } from "flowbite-react";
 function ViewExpenses() {
@@ -74,6 +74,15 @@ function ViewExpenses() {
     loadExpense();
   };
 
+  //remove expense:
+
+  const removeExpense = (expenseId) => {
+    const newExpenses = expenses.filter((exp) => exp._id != expenseId);
+    const newAllExpenses = allExpenses.filter((exp) => exp._id != expenseId);
+    setExpenses([...newExpenses]);
+    setAllExpenses([...newAllExpenses]);
+  };
+
   return (
     <div>
       {/* heading */}
@@ -101,7 +110,7 @@ function ViewExpenses() {
       {/* Filters */}
 
       <div className="filter_container  items-center flex justify-between gap-2">
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap items-end ">
           <div className="flex flex-col">
             <Label htmlFor="minPrice" className="text-gray-600 px-1 text-xs">
               Select min price
@@ -142,7 +151,7 @@ function ViewExpenses() {
             <Label htmlFor="fromDate" className="text-gray-600 px-1 text-xs">
               From Date
             </Label>
-            <Datepicker  id="fromDate" sizing="sm" placeholder="From Date" />
+            <Datepicker id="fromDate" sizing="sm" placeholder="From Date" />
           </div>
 
           <div className="flex flex-col">
@@ -151,6 +160,21 @@ function ViewExpenses() {
             </Label>
             <Datepicker id="fromDate" sizing="sm" placeholder="From Date" />
           </div>
+
+          <Button
+            className="cursor-pointer flex justify-center gap-1 items-center"
+            color={"alternative"}
+            size="sm"
+          >
+            <MdTimer /> <span>Today</span>{" "}
+          </Button>
+          <Button
+            className="cursor-pointer flex justify-center gap-1 items-center"
+            color={"alternative"}
+            size="sm"
+          >
+            <MdTimer /> <span>Yesterday</span>{" "}
+          </Button>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button
@@ -178,7 +202,7 @@ function ViewExpenses() {
           <div>
             <div className="flex flex-wrap mt-8 gap-4">
               {expenses.map((expense, index) => (
-                <ExpenseView key={index} expense={expense} />
+                <ExpenseView  removeExpense={removeExpense} key={index} expense={expense} />
               ))}
             </div>
           </div>
