@@ -6,6 +6,7 @@ import { authMiddleware } from "./middlewares/auth.middleware.js";
 import { notFount, errorHandler } from "./errors/error.js";
 import connectDb from "./config/db.js";
 import cors from "cors";
+import authRouter from "./routes/auth.route.js";
 // express to get app
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(
 app.use(express.json());
 // routes
 // example of middleware
+app.use("/api", authRouter);
 app.use(authMiddleware);
 
 // these are routers

@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-
-const mongoURI =
-  "mongodb+srv://admin:admin@cluster0.ckhcvux.mongodb.net/expense_tracker?retryWrites=true&w=majority&appName=Cluster0";
-
+import { mongoURI } from "../utils/constants.js";
 // mongoose
 //   .connect(mongoURI)
 //   .then(() => {

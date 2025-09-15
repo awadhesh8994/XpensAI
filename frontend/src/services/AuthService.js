@@ -1,14 +1,12 @@
 import axios from "axios";
 import { serverBaseURL } from "../config/config";
 
-// function create user:
-export const createUser = async (userObject) => {
-  const response = await axios.post(`${serverBaseURL}/users`, userObject, {
+export const loginUser = async (loginData) => {
+  const response = await axios.post(`${serverBaseURL}/auth/login`, loginData, {
     headers: {
       Authorization: "123456",
     },
   });
+
   return response.data;
 };
-
-
