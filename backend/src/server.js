@@ -21,6 +21,7 @@ app.use(express.json());
 // routes
 // example of middleware
 app.use("/api", authRouter);
+//auth middleware
 app.use(authMiddleware);
 
 // these are routers

@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/AuthService";
+import { saveLoginData } from "../services/LocalStorageService";
+import { useLocation, useNavigate } from "react-router";
+import { useAuthContext } from "../context/AuthContext";
 
 function Login() {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
+  const { setUser, setAccessToken } = useAuthContext();
+
+  const navigate = useNavigate();
 
   const submitData = async (event) => {
     event.preventDefault();
@@ -23,9 +30,22 @@ function Login() {
     console.log(loginData);
 
     /// sent this email and password to server:
-
-    const responseData = await loginUser(loginData);
-    console.log(responseData);
+    try {
+      const responseData = await loginUser(loginData);
+      console.log(responseData);
+      //saves to localstorage
+      saveLoginData(responseData);
+      setUser(responseData.user);
+      setAccessToken(responseData.accessToken);
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      if (error.status == 403) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Error in login!!");
+      }
+    }
   };
 
   return (

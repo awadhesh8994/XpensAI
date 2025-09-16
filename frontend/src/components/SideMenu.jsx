@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaHome,
   FaPlusCircle,
@@ -10,23 +10,45 @@ import {
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { MdDelete } from "react-icons/md";
-
-const menuItems = [
-  { name: "Home", icon: <FaHome />, path: "/dashboard" },
-  {
-    name: "Add Expense",
-    icon: <FaPlusCircle />,
-    path: "/dashboard/add-expense",
-  },
-  { name: "View Expense", icon: <FaListUl />, path: "/dashboard/expenses" },
-  { name: "Assistant", icon: <FaRobot />, path: "/dashboard/assistant" },
-  { name: "Recycle Bin", icon: <MdDelete />, path: "/dashboard/recycle" },
-  { name: "Rohit", icon: <FaUser />, path: "/user" },
-  { name: "Logout", icon: <FaLongArrowAltUp />, path: "/user" },
-];
+import { useAuthContext } from "../context/AuthContext";
+import { BiLogOut, BiUserCheck } from "react-icons/bi";
 
 function SideMenu() {
+  const [menuItems, setMenuItems] = useState([
+    { name: "Home", icon: <FaHome />, path: "/dashboard" },
+    {
+      name: "Add Expense",
+      icon: <FaPlusCircle />,
+      path: "/dashboard/add-expense",
+    },
+    { name: "View Expense", icon: <FaListUl />, path: "/dashboard/expenses" },
+    { name: "Assistant", icon: <FaRobot />, path: "/dashboard/assistant" },
+    { name: "Recycle Bin", icon: <MdDelete />, path: "/dashboard/recycle" },
+    // { name: "Rohit", icon: <FaUser />, path: "/user" },
+    // { name: "Logout", icon: <FaLongArrowAltUp />, path: "/user" },
+  ]);
+
+  const { user, accessToken } = useAuthContext();
+  console.log(user);
   const location = useLocation();
+
+  // useEffect(() => {
+  //   if (user) {
+  //     setMenuItems([
+  //       ...menuItems,
+  //       {
+  //         name: user.username,
+  //         icon: <FaUser />,
+  //         path: "/user",
+  //       },
+  //       {
+  //         name: "Logout",
+  //         icon: <BiUserCheck />,
+  //         path: "/user",
+  //       },
+  //     ]);
+  //   }
+  // }, [user]);
 
   return (
     <div className="fixed top-16 h-screen w-64 bg-gray-900 text-white shadow-lg flex flex-col">
@@ -38,21 +60,46 @@ function SideMenu() {
           const isActive = location.pathname === item.path;
 
           return (
-            <Link
-              key={index}
-              to={item.path}
-              className={`flex items-center space-x-4 px-4 py-3 rounded-md transition duration-200
+            <>
+              <Link
+                key={index}
+                to={item.path}
+                className={`flex items-center space-x-4 px-4 py-3 rounded-md transition duration-200
               ${
                 isActive
                   ? "bg-blue-600 text-white"
                   : "text-gray-300 hover:bg-gray-800 hover:text-white"
               }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span className="text-sm font-medium">{item.name}</span>
-            </Link>
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span className="text-sm font-medium">{item.name}</span>
+              </Link>
+            </>
           );
         })}
+
+        {user && (
+          <>
+            <Link
+              className={`flex items-center space-x-4 px-4 py-3 rounded-md transition duration-200
+           ${"text-gray-300 hover:bg-gray-800 hover:text-white"}`}
+            >
+              <span className="text-lg">
+                <FaUser />
+              </span>
+              <span className="text-sm font-medium">{user.username}</span>
+            </Link>
+            <Link
+              className={`flex items-center space-x-4 px-4 py-3 rounded-md transition duration-200
+           ${"text-gray-300 hover:bg-gray-800 hover:text-white"}`}
+            >
+              <span className="text-lg">
+                <BiLogOut />
+              </span>
+              <span className="text-sm font-medium">Logout</span>
+            </Link>
+          </>
+        )}
       </nav>
     </div>
   );

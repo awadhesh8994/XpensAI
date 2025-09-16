@@ -1,47 +1,9 @@
 import { Router } from "express";
-import User from "../models/users.js";
-import bcrypt from "bcrypt";
-import { createToken } from "../utils/jwtUtil.js";
+import { loginUser } from "../controllers/auth.controller.js";
+import { createUser } from "../controllers/user.controller.js";
 
 const authRouter = Router();
 
-authRouter.post("/auth/login", async (req, resp) => {
-  const { email, password } = req.body;
-  console.log("Email: ", email);
-  console.log("password", password);
-
-  //check the email and password
-  if (!email || !password) {
-    return resp.status(403).json({
-      message: "Invalid Credentials !!",
-    });
-  }
-
-  ///user fetch jiski emailhai:
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    return resp.status(404).json({
-      message: "Invalid Username or Password !",
-    });
-  }
-
-  // match the passwords
-  const match = await bcrypt.compare(password, user.password);
-
-  if (!match) {
-    return resp.status(403).json({
-      message: "Invalid Username or Password !!",
-    });
-  }
-
-  // token____
-
-  //we have to create token
-  const accessToken = createToken(user);
-  resp.json({
-    accessToken,
-  });
-});
-
+authRouter.post("/auth/login", loginUser);
+authRouter.post("/auth/register", createUser);
 export default authRouter;
