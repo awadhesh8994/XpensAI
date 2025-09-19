@@ -16,10 +16,19 @@ import { parseDate, parsePrice } from "../utils/parseFilters.js";
 
 //get expenses
 export const getExpenses = async (req, resp) => {
+  //userid
+  const userId = req.userId;
+  if (!userId) {
+    return resp.status(403).json({
+      message: "invalid request",
+    });
+  }
+
   const { minPrice, maxPrice, fromDate, toDate } = req.query;
 
   let filter = {
     hidden: false,
+    userId: userId,
   };
 
   // const fromDateParsed = parseDate(fromDate);
@@ -74,6 +83,14 @@ export const getExpense = async (req, resp) => {
 //create expense
 export const createExpense = async (req, resp) => {
   console.log(req.body);
+  console.log("exp controller  userid ", req.userId);
+
+  if (!req.userId) {
+    return resp.status(403).json({
+      message: "Invalid Request",
+    });
+  }
+
   const { title, description, rs, hidden, paymentMethod } = req.body;
 
   const ob = await Expense.create({
@@ -82,6 +99,7 @@ export const createExpense = async (req, resp) => {
     paymentMethod,
     rs,
     hidden,
+    userId: req.userId,
   });
 
   //save in database

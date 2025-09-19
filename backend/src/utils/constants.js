@@ -6,3 +6,4 @@ export const mongoURI =
 export const ACCESS_SECRET = "asjhalcfnahrffnaklsjjfhpwofjasddkfnasohfasfisach";
 //10 minutes-- valid
 export const ACCESS_TOKEN_EXP = "1d";
+export const OPEN_AI_KEY = "";

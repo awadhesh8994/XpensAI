@@ -15,7 +15,10 @@ export const authMiddleware = (req, resp, next) => {
 
   try {
     const payload = jsonwebtoken.verify(authorization, ACCESS_SECRET);
-    console.log(payload);
+
+    console.log("userid", payload.sub);
+    req.userId = payload.sub;
+
     next();
   } catch (e) {
     resp.status(403).json({

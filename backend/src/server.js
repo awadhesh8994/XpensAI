@@ -7,6 +7,11 @@ import { notFount, errorHandler } from "./errors/error.js";
 import connectDb from "./config/db.js";
 import cors from "cors";
 import authRouter from "./routes/auth.route.js";
+import aiRouter from "./routes/ai.route.js";
+// import dotenv from "dotenv";
+// dotenv.config({
+//   path: "../.env",
+// });
 // express to get app
 const app = express();
 
@@ -27,6 +32,7 @@ app.use(authMiddleware);
 // these are routers
 app.use("/api", expenseRouter);
 app.use("/api", userRouter);
+app.use("/api", aiRouter);
 
 //error handle
 app.use(notFount);

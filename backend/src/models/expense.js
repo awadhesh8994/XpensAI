@@ -31,6 +31,11 @@ const expenseSchema = new mongoose.Schema(
     screenshot: {
       type: String,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   }
   // {
   //   collection: "expenses",
