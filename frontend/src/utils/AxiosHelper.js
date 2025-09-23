@@ -2,7 +2,7 @@ import axios from "axios";
 import { serverBaseURL } from "../config/config";
 import {
   getAccessTokenFromLocalStorage,
-  getLoginData,
+
 } from "../services/LocalStorageService";
 
 export const axiosInstance = axios.create({

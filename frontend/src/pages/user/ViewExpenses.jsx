@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getExpenses } from "../../services/ExpenseService";
 import { toast } from "react-toastify";
-import { MdInfo, MdTimer } from "react-icons/md";
+import { MdInfo, MdTimer, MdSearch } from "react-icons/md";
 import ExpenseView from "../../components/user/ExpenseView";
 import { Button, TextInput, Datepicker, Label } from "flowbite-react";
 function ViewExpenses() {
@@ -83,6 +83,12 @@ function ViewExpenses() {
     setAllExpenses([...newAllExpenses]);
   };
 
+  // update expense in local state
+  const handleExpenseUpdated = (updated) => {
+    setExpenses((prev) => prev.map((e) => (e._id === updated._id ? { ...e, ...updated } : e)));
+    setAllExpenses((prev) => prev.map((e) => (e._id === updated._id ? { ...e, ...updated } : e)));
+  };
+
   return (
     <div>
       {/* heading */}
@@ -91,17 +97,16 @@ function ViewExpenses() {
       </h1> */}
 
       {/* search bar */}
-      <div className="flex gap-3 mb-3 flex-wrap">
-        <input
-          onChange={(e) => {
-            setSearchKeyword(e.target.value);
-          }}
+      <div className="mb-4">
+        <TextInput
+          icon={MdSearch}
+          sizing="md"
+          color="gray"
           value={searchKeyword}
-          type="text"
-          id="voice-search"
-          class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block flex-1 ps-10 p-2.5  "
-          placeholder="Search your expense here "
-          required
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          placeholder="Search expenses by title..."
+          shadow
+          className="w-full"
         />
       </div>
 
@@ -109,15 +114,18 @@ function ViewExpenses() {
 
       {/* Filters */}
 
-      <div className="filter_container  items-center flex justify-between gap-2">
-        <div className="flex gap-2 flex-wrap items-end ">
+      <div className="relative z-40 rounded-2xl  border border-gray-200 bg-white/70 backdrop-blur p-4 shadow-sm dark:bg-neutral-900/60 dark:border-neutral-800">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-neutral-200">Filters</h3>
+          <span className="text-xs text-gray-500">{expenses.length} results</span>
+        </div>
+        <div className="flex gap-3 flex-wrap items-end">
           <div className="flex flex-col">
             <Label htmlFor="minPrice" className="text-gray-600 px-1 text-xs">
-              Select min price
+              Min price
             </Label>
             <TextInput
               onChange={(e) => {
-                // console.log(e.target.value);
                 setFilters({
                   ...filters,
                   minPrice: e.target.value,
@@ -126,12 +134,12 @@ function ViewExpenses() {
               value={filters.minPrice}
               id="minPrice"
               sizing="sm"
-              placeholder="Min Price"
+              placeholder="0"
             />
           </div>
           <div className="flex flex-col">
             <Label htmlFor="maxPrice" className="text-gray-600 px-1 text-xs">
-              Select max price
+              Max price
             </Label>
             <TextInput
               onChange={(e) => {
@@ -143,55 +151,76 @@ function ViewExpenses() {
               value={filters.maxPrice}
               id="maxPrice"
               sizing="sm"
-              placeholder="Max Price"
+              placeholder="1000"
             />
           </div>
 
           <div className="flex flex-col">
             <Label htmlFor="fromDate" className="text-gray-600 px-1 text-xs">
-              From Date
+              From date
             </Label>
-            <Datepicker id="fromDate" sizing="sm" placeholder="From Date" />
+            <div className="relative z-50">
+              <Datepicker id="fromDate" sizing="sm" placeholder="From date" className="z-50" />
+            </div>
           </div>
 
           <div className="flex flex-col">
-            <Label htmlFor="fromDate" className="text-gray-600 px-1 text-xs">
-              To Date
+            <Label htmlFor="toDate" className="text-gray-600 px-1 text-xs">
+              To date
             </Label>
-            <Datepicker id="fromDate" sizing="sm" placeholder="From Date" />
+            <div className="relative z-50">
+              <Datepicker id="toDate" sizing="sm" placeholder="To date" className="z-50" />
+            </div>
           </div>
 
-          <Button
-            className="cursor-pointer flex justify-center gap-1 items-center"
-            color={"alternative"}
-            size="sm"
-          >
-            <MdTimer /> <span>Today</span>{" "}
-          </Button>
-          <Button
-            className="cursor-pointer flex justify-center gap-1 items-center"
-            color={"alternative"}
-            size="sm"
-          >
-            <MdTimer /> <span>Yesterday</span>{" "}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              className="cursor-pointer flex justify-center gap-1 items-center"
+              color={"gray"}
+              size="xs"
+            >
+              <MdTimer /> <span>Today</span>
+            </Button>
+            <Button
+              className="cursor-pointer flex justify-center gap-1 items-center"
+              color={"gray"}
+              size="xs"
+            >
+              <MdTimer /> <span>Yesterday</span>
+            </Button>
+            <Button
+              className="cursor-pointer flex justify-center gap-1 items-center"
+              color={"gray"}
+              size="xs"
+            >
+              <MdTimer /> <span>Last 7 days</span>
+            </Button>
+            <Button
+              className="cursor-pointer flex justify-center gap-1 items-center"
+              color={"gray"}
+              size="xs"
+            >
+              <MdTimer /> <span>This month</span>
+            </Button>
+          </div>
         </div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="mt-3 flex gap-2 flex-wrap">
           <Button
             onClick={applyFilter}
             className="cursor-pointer"
             size="sm"
             color={"green"}
           >
-            Apply Filter
+            Apply filter
           </Button>
           <Button
             onClick={clearFilter}
             className="cursor-pointer"
             size="sm"
             color={"red"}
+            outline
           >
-            Clear Filter
+            Clear
           </Button>
         </div>
       </div>
@@ -200,9 +229,14 @@ function ViewExpenses() {
       {expenses.length > 0 && (
         <div className="">
           <div>
-            <div className="flex flex-wrap mt-8 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mt-8">
               {expenses.map((expense, index) => (
-                <ExpenseView  removeExpense={removeExpense} key={index} expense={expense} />
+                <ExpenseView
+                  removeExpense={removeExpense}
+                  onUpdateExpense={handleExpenseUpdated}
+                  key={index}
+                  expense={expense}
+                />
               ))}
             </div>
           </div>

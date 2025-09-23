@@ -24,3 +24,9 @@ export const deleteExpense = async (expenseId) => {
   const response = await axiosInstance.delete(`/expenses/${expenseId}`);
   return response.data;
 };
+
+// update expense
+export const updateExpense = async (expenseId, expenseData) => {
+  const response = await axiosInstance.put(`/expenses/${expenseId}`, expenseData);
+  return response.data;
+};

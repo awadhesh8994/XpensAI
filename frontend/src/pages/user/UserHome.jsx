@@ -7,21 +7,9 @@ import PaymentMethodDoughnut from "../../components/user/PaymentMethodDoughnut.j
 import RecentTransactionsList from "../../components/user/RecentTransactionsList.jsx";
 import DashboardSkeleton from "../../components/user/DashboardSkeleton.jsx";
 import DailySpendBar from "../../components/user/DailySpendBar.jsx";
-import {
-  ArrowUpRight,
-  ArrowDownRight,
-  Wallet,
-  CalendarDays,
-  CreditCard,
-  TrendingUp,
-} from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Wallet, CalendarDays, CreditCard, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  formatCurrency,
-  formatDate,
-  capitalize,
-  getSeverityBadge,
-} from "../../utils/formatters.js";
+import { formatCurrency, formatDate, capitalize, getSeverityBadge } from "../../utils/formatters.js";
 
 export default function UserHome() {
   const { dashboardData, setDashboardData } = useAuthContext();
@@ -49,29 +37,20 @@ export default function UserHome() {
   const currency = data?.currency ?? "INR";
 
   return (
-    <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div className="px-4  md:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Hero header */}
       <div className="mt-2 mb-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-blue-500/10 to-emerald-500/10 border border-indigo-100/60 p-5">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">Warning</h1>
-            <p className="font-semibold mt-2 text-2xl text-gray-600">
-              {dashboardData.headline}
-            </p>
-            <p className=" text-lg mt-2 text-gray-600">{dashboardData.tip}</p>
+            <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+            <p className="text-sm text-gray-600">Weekly overview and insights</p>
           </div>
           <div
             className={`inline-flex items-center px-2 py-1 rounded-md text-xs ${
-              isUp
-                ? "bg-emerald-50 text-emerald-700"
-                : "bg-rose-50 text-rose-700"
+              isUp ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
             }`}
           >
-            {isUp ? (
-              <ArrowUpRight className="w-3.5 h-3.5 mr-1" />
-            ) : (
-              <ArrowDownRight className="w-3.5 h-3.5 mr-1" />
-            )}
+            {isUp ? <ArrowUpRight className="w-3.5 h-3.5 mr-1" /> : <ArrowDownRight className="w-3.5 h-3.5 mr-1" />}
             {isUp ? "Up" : "Down"}
           </div>
         </div>
@@ -98,11 +77,7 @@ export default function UserHome() {
               <ArrowDownRight className="w-4 h-4 text-rose-600" />
             )
           }
-          accent={
-            isUp
-              ? "from-emerald-500/15 to-emerald-500/5"
-              : "from-rose-500/15 to-rose-500/5"
-          }
+          accent={isUp ? "from-emerald-500/15 to-emerald-500/5" : "from-rose-500/15 to-rose-500/5"}
         />
         <StatCard
           icon={<CreditCard className="w-5 h-5" />}
@@ -118,10 +93,7 @@ export default function UserHome() {
           icon={<CalendarDays className="w-5 h-5" />}
           title="Peak Day"
           value={formatDate(data.peakDay?.date)}
-          subtitle={`${formatCurrency(
-            data.peakDay?.amount ?? 0,
-            currency
-          )} spent`}
+          subtitle={`${formatCurrency(data.peakDay?.amount ?? 0, currency)} spent`}
           accent="from-amber-500/15 to-amber-500/5"
         />
       </div>
@@ -158,9 +130,7 @@ export default function UserHome() {
         >
           <h3 className="font-medium mb-3">Payment Methods</h3>
           <div className="h-72">
-            <PaymentMethodDoughnut
-              breakdown={data.paymentMethodBreakdown ?? []}
-            />
+            <PaymentMethodDoughnut breakdown={data.paymentMethodBreakdown ?? []} />
           </div>
         </motion.div>
       </div>
@@ -174,9 +144,7 @@ export default function UserHome() {
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-medium">Daily Totals (Bar)</h3>
-          <span className="text-xs text-gray-500">
-            {(data.recentTransactions ?? []).length} transactions
-          </span>
+          <span className="text-xs text-gray-500">{(data.recentTransactions ?? []).length} transactions</span>
         </div>
         <div className="h-72">
           <DailySpendBar
@@ -198,14 +166,9 @@ export default function UserHome() {
         >
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-medium">Recent Transactions</h3>
-            <span className="text-xs text-gray-500">
-              {(data.recentTransactions ?? []).length} items
-            </span>
+            <span className="text-xs text-gray-500">{(data.recentTransactions ?? []).length} items</span>
           </div>
-          <RecentTransactionsList
-            items={data.recentTransactions ?? []}
-            currency={currency}
-          />
+          <RecentTransactionsList items={data.recentTransactions ?? []} currency={currency} />
         </motion.div>
 
         <motion.div
@@ -215,19 +178,11 @@ export default function UserHome() {
           transition={{ duration: 0.25, delay: 0.15 }}
         >
           <div>
-            <div
-              className={`inline-block text-xs px-2 py-1 rounded-md mb-3 ${getSeverityBadge(
-                data.severity
-              )}`}
-            >
+            <div className={`inline-block text-xs px-2 py-1 rounded-md mb-3 ${getSeverityBadge(data.severity)}`}>
               {capitalize(data.severity ?? "info")}
             </div>
-            <h3 className="font-semibold text-lg">
-              {data.action?.label ?? "Take Action"}
-            </h3>
-            <p className="text-sm text-gray-600 mt-1">
-              {data.action?.tip ?? "Review your budget regularly."}
-            </p>
+            <h3 className="font-semibold text-lg">{data.action?.label ?? "Take Action"}</h3>
+            <p className="text-sm text-gray-600 mt-1">{data.action?.tip ?? "Review your budget regularly."}</p>
           </div>
           <a
             href={data.action?.url ?? "#"}

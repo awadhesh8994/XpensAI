@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
+  const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
     setAccessToken(getAccessTokenFromLocalStorage());
@@ -29,11 +30,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setAccessToken(null);
     removeLoginData();
+    setDashboardData(null)
   }
 
   return (
     <AuthContent.Provider
-      value={{ user, accessToken, setUser, setAccessToken, logoutUser }}
+      value={{ user, accessToken, setUser, setAccessToken, logoutUser,dashboardData,setDashboardData }}
     >
       {children}
     </AuthContent.Provider>

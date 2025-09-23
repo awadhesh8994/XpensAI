@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router";
 import { getAccessTokenFromLocalStorage } from "../../services/LocalStorageService";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../context/AuthContext";
+import GradientBackground from "../../components/GradientBackground.jsx";
 
 function DashboardLayout() {
   const accessToken = getAccessTokenFromLocalStorage();
@@ -32,9 +33,11 @@ function DashboardLayout() {
       </div>
 
       {/* right */}
-      <div className=" pl-64 pt-16 min-h-screen  flex-1  bg-gray-200">
+      <div className=" pl-64  min-h-screen  flex-1  bg-gray-200">
         <div className="p-10 ">
-          <Outlet />
+
+           <Outlet />
+
         </div>
       </div>
     </div>

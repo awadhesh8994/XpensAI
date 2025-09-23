@@ -1,13 +1,14 @@
 import openAiClient from "../config/openai.js";
-import { getExpenseData } from "../utils/expenseHelper.js";
+import {getExpenseData} from "../utils/expenseHelper.js";
 
 export const getSuggestions = async (req, resp) => {
-  // last 7 days of expense data
+    // last 7 days of expense data
 
-  const data = await getExpenseData(req.userId);
-  console.log(data);
 
-  const prompt = `You are a concise UI and financial calculator assistant for a personal finance dashboard.
+    const data = await getExpenseData(req.userId);
+    console.log(data);
+
+    const prompt = `You are a concise UI and financial calculator assistant for a personal finance dashboard.
 Input: a JSON object with fields like period, currency, totalForTheWeek, totalPreviousWeek, payMethodUsedBreakdown, dailyBreakdown (list of dates + amounts for each day in ISO YYYY-MM-DD),  recentTransactions, and optional weeklyBudget and locale.
 
 Return: ONLY valid JSON (no prose, no backticks). The JSON must match the Response Schema below exactly. Use currency formatting hints only in strings and do not change numeric fields.
@@ -22,7 +23,6 @@ Rules:
 8. Use ISO dates (YYYY-MM-DD) everywhere.
 9. Numeric fields must be numbers (no formatting). Strings may include currency symbol when shown to the user (e.g., "₹5,423") but numeric fields stay numeric.
 10. Keep headline ≤ 25 words. Keep tip ≤ 10 words.
-11. Add one field 'tip' : provide one best tip to reduced user expense based on given data . keep tip<30 words.
 
 Response Schema (return JSON exactly following this schema):
 {
@@ -37,29 +37,28 @@ Response Schema (return JSON exactly following this schema):
   "paymentMethodBreakdown": [ { "method": string, "amount": number } ],
   "recentTransactions": [ { "id": string, "title": string, "description": string, "amount": number, "date": "YYYY-MM-DD", "paymentmethod": string } ],
   "action": { "label": string, "url": string, "tip": string },
-  "severity": "ok" | "caution" | "alert",
-  "tip":string
+  "severity": "ok" | "caution" | "alert"
 }
 
 
 Input :
 
 ${JSON.stringify(data)}
-`;
-  console.log(prompt);
+`
+    console.log(prompt)
 
-  //
-  // const prompt = `
-  // The user has just logged in. Show a random short motivational quote related to money, savings, or wealth-building. Keep it positive and inspiring with in 2 paragraph.
-  // `;
-  //
-  const response = await openAiClient.responses.create({
-    model: "gpt-5-mini",
-    instructions: "You are a finance expert.",
-    input: prompt,
-  });
-  //
-  console.log(response.output_text);
-  resp.send(response.output_text);
-  // resp.send("hello");
+    //
+    // const prompt = `
+    // The user has just logged in. Show a random short motivational quote related to money, savings, or wealth-building. Keep it positive and inspiring with in 2 paragraph.
+    // `;
+    //
+    const response = await openAiClient.responses.create({
+        model: "gpt-5-mini",
+        instructions: "You are a finance expert.",
+        input: prompt,
+    });
+    //
+    console.log(response.output_text);
+    resp.send(response.output_text);
+    // resp.send("hello");
 };
