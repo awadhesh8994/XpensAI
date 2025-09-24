@@ -33,7 +33,7 @@ function DashboardLayout() {
       </div>
 
       {/* right */}
-      <div className=" pl-64  min-h-screen  flex-1  bg-gray-200">
+      <div className=" pl-64   flex-1  ">
         <div className="p-10 ">
 
            <Outlet />

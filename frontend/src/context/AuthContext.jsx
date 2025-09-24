@@ -1,45 +1,47 @@
 import {
-  Children,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
+    Children,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
 } from "react";
 import {
-  getAccessTokenFromLocalStorage,
-  getUserFromLocalStorage,
-  removeLoginData,
+    getAccessTokenFromLocalStorage,
+    getUserFromLocalStorage,
+    removeLoginData,
 } from "../services/LocalStorageService";
-import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import {useNavigate} from "react-router";
+import {toast} from "react-toastify";
 
 const AuthContent = createContext(null);
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const navigate = useNavigate();
-  const [dashboardData, setDashboardData] = useState(null);
+export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(null);
+    const [accessToken, setAccessToken] = useState(null);
 
-  useEffect(() => {
-    setAccessToken(getAccessTokenFromLocalStorage());
-    setUser(getUserFromLocalStorage());
-  }, []);
+    const [dashboardData, setDashboardData] = useState(null);
+    const [loadingDashboardData, setLoadingDashboardData] = useState(false);
 
-  function logoutUser() {
-    setUser(null);
-    setAccessToken(null);
-    removeLoginData();
-    setDashboardData(null)
-  }
+    useEffect(() => {
+        setAccessToken(getAccessTokenFromLocalStorage());
+        setUser(getUserFromLocalStorage());
+    }, []);
 
-  return (
-    <AuthContent.Provider
-      value={{ user, accessToken, setUser, setAccessToken, logoutUser,dashboardData,setDashboardData }}
-    >
-      {children}
-    </AuthContent.Provider>
-  );
+    function logoutUser() {
+        setUser(null);
+        setAccessToken(null);
+        removeLoginData();
+        setDashboardData(null)
+        setLoadingDashboardData(false)
+    }
+
+    return (
+        <AuthContent.Provider
+            value={{user, accessToken, setUser, setAccessToken, logoutUser, dashboardData, setDashboardData, loadingDashboardData, setLoadingDashboardData}}
+        >
+            {children}
+        </AuthContent.Provider>
+    );
 };
 
 export const useAuthContext = () => useContext(AuthContent);

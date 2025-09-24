@@ -1,9 +1,8 @@
-export const mongoURI =
-  "mongodb+srv://admin:admin@cluster0.ckhcvux.mongodb.net/expense_tracker?retryWrites=true&w=majority&appName=Cluster0";
+export const mongoURI =process.env.MONGO_URI;
 
 //   token related:
 
-export const ACCESS_SECRET = "asjhalcfnahrffnaklsjjfhpwofjasddkfnasohfasfisach";
+export const ACCESS_SECRET =process.env.ACCESS_SECRET;
 //10 minutes-- valid
-export const ACCESS_TOKEN_EXP = "1d";
-export const OPEN_AI_KEY = "";
+export const ACCESS_TOKEN_EXP = process.env.ACCESS_TOKEN_EXP;
+export const OPEN_AI_KEY = process.env.OPENAI_API_KEY;

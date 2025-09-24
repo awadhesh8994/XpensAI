@@ -1,4 +1,9 @@
 //import express
+import dotenv from "dotenv";
+dotenv.config({
+  path: "../.env",
+});
+
 import express from "express";
 import expenseRouter from "./routes/expense.route.js";
 import userRouter from "./routes/user.route.js";
@@ -8,12 +13,14 @@ import connectDb from "./config/db.js";
 import cors from "cors";
 import authRouter from "./routes/auth.route.js";
 import aiRouter from "./routes/ai.route.js";
-// import dotenv from "dotenv";
+
 // dotenv.config({
 //   path: "../.env",
 // });
 // express to get app
 const app = express();
+
+console.log(process.env.OPEN_AI_KEY);
 
 app.use(
   cors({

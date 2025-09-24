@@ -41,7 +41,7 @@ function Login() {
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      if (error.status == 403) {
+      if (error.status === 403) {
         toast.error(error.response.data.message);
       } else {
         toast.error("Error in login!!");

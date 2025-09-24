@@ -1,5 +1,3 @@
-import axios from "axios";
-import { serverBaseURL } from "../config/config";
 import { axiosInstance } from "../utils/AxiosHelper";
 
 export const loginUser = async (loginData) => {
