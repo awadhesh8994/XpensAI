@@ -24,7 +24,7 @@ console.log(process.env.OPEN_AI_KEY);
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://expensefront1.netlify.app",
   })
 );
 
