@@ -22,9 +22,14 @@ const app = express();
 
 console.log(process.env.OPEN_AI_KEY);
 
+const allowedOrigins = [
+  "http://localhost:5173",              // Local frontend (for dev)
+  "https://expensefront1.netlify.app"  // Deployed frontend (for production)
+];
+
 app.use(
   cors({
-    origin: "https://expensefront1.netlify.app",
+    origin: allowedOrigins,
   })
 );
 

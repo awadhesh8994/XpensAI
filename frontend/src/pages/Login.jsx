@@ -12,8 +12,8 @@ function Login() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const { setUser, setAccessToken } = useAuthContext();
-
   const navigate = useNavigate();
 
   const submitData = async (event) => {
@@ -30,11 +30,10 @@ function Login() {
 
     console.log(loginData);
 
-    /// sent this email and password to server:
+    setLoading(true);
     try {
       const responseData = await loginUser(loginData);
       console.log(responseData);
-      //saves to localstorage
       saveLoginData(responseData);
       setUser(responseData.user);
       setAccessToken(responseData.accessToken);
@@ -46,67 +45,96 @@ function Login() {
       } else {
         toast.error("Error in login!!");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-      <GradientBackground>
-          <div className="max-w-md shadow   rounded-3xl p-10  mx-auto mt-2 md:mt-10 ">
-              <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
-                  Login Here
-              </h1>
-              <form noValidate action="" onSubmit={submitData}>
-                  <div>
-                      <label className="block text-gray-700 mb-1">Email</label>
-                      <input
-                          value={loginData.email}
-                          onChange={(e) => {
-                              setLoginData({
-                                  ...loginData,
-                                  email: e.target.value,
-                              });
-                          }}
-                          type="email"
-                          name="email"
-                          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                          placeholder="Enter your email"
-                          required
-                      />
-                  </div>
+  const handleReset = () => {
+    setLoginData({
+      email: "",
+      password: "",
+    });
+  };
 
-                  <div className="mt-2">
-                      <label className="block text-gray-700 mb-1">Password</label>
-                      <input
-                          value={loginData.password}
-                          onChange={(e) => {
-                              setLoginData({
-                                  ...loginData,
-                                  password: e.target.value,
-                              });
-                          }}
-                          type="password"
-                          name="password"
-                          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                          placeholder="Enter your email"
-                          required
-                      />
-                  </div>
-                  <div className="flex justify-center gap-2 mt-3">
-                      <button
-                          type="submit"
-                          className="bg-blue-700 cursor-pointer text-white px-3 rounded py-2"
-                      >
-                          Login
-                      </button>
-                      <button className="bg-orange-700 text-white px-3 rounded py-2">
-                          Reset
-                      </button>
-                  </div>
-              </form>
+  return (
+    <GradientBackground>
+      <div className="max-w-md mx-auto mt-10 bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-xl border border-gray-200/60">
+        <h1 className="text-3xl font-black text-center mb-8 bg-gradient-to-r from-indigo-600 to-indigo-800 bg-clip-text text-transparent">
+          Welcome Back
+        </h1>
+        
+        <form noValidate onSubmit={submitData} className="space-y-6">
+          {/* Email */}
+          <div className="group">
+            <label className="block text-gray-700 mb-2 font-semibold">Email</label>
+            <input
+              value={loginData.email}
+              onChange={(e) => {
+                setLoginData({
+                  ...loginData,
+                  email: e.target.value,
+                });
+              }}
+              type="email"
+              name="email"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all duration-300 group-hover:border-gray-400"
+              placeholder="Enter your email"
+              required
+            />
           </div>
 
-      </GradientBackground>
-   );
+          {/* Password */}
+          <div className="group">
+            <label className="block text-gray-700 mb-2 font-semibold">Password</label>
+            <input
+              value={loginData.password}
+              onChange={(e) => {
+                setLoginData({
+                  ...loginData,
+                  password: e.target.value,
+                });
+              }}
+              type="password"
+              name="password"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all duration-300 group-hover:border-gray-400"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="relative flex-1 py-3 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-[1.02] disabled:hover:scale-100 overflow-hidden group"
+            >
+              {/* Shimmer effect */}
+              {!loading && (
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+              )}
+              
+              <span className="relative z-10">
+                {loading ? "Logging in..." : "Login"}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleReset}
+              className="relative flex-1 py-3 rounded-xl text-lg font-bold text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden group"
+            >
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+              
+              <span className="relative z-10">Reset</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </GradientBackground>
+  );
 }
 
 export default Login;

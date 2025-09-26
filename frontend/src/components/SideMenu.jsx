@@ -62,7 +62,7 @@ function SideMenu() {
               <span className="text-lg">₹</span>
             </div>
             <div className="min-w-0">
-              <div className="text-sm font-semibold leading-tight">Smart Expense</div>
+              <div className="text-sm font-semibold leading-tight">XpensaAI</div>
               <div className="text-[11px] text-gray-400 leading-tight">Track and manage spending</div>
             </div>
           </div>

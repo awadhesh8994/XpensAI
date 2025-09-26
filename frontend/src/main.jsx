@@ -14,6 +14,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import UserHome from "./pages/user/UserHome.jsx";
 import {ChatAssistant} from "./pages/user/ChatAssistant.jsx";
 import RecycleBin from "./pages/user/RecycleBin.jsx";
+import AboutPage from "./pages/About.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="about" element={<AboutPage />} />
           <Route path="expenses" element={<h1>This is Expenses page</h1>} />
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="" element={<UserHome />} />

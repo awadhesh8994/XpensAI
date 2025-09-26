@@ -403,69 +403,93 @@ function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative border-t border-indigo-100/60 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-10 sm:flex-row">
-          <div className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Smart Expense Manager
-          </div>
-          <nav className="flex flex-wrap items-center justify-center gap-5 text-sm">
-            <Link
-              to="/about"
-              className="text-gray-600 hover:text-gray-900 hover:underline"
-            >
-              About
-            </Link>
-            <Link
-              to="/pricing"
-              className="text-gray-600 hover:text-gray-900 hover:underline"
-            >
-              Pricing
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-600 hover:text-gray-900 hover:underline"
-            >
-              Contact
-            </Link>
-            <Link
-              to="/privacy"
-              className="text-gray-600 hover:text-gray-900 hover:underline"
-            >
-              Privacy Policy
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <a
-              href="https://www.linkedin.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="text-gray-500 transition-colors hover:text-indigo-600"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href="https://www.twitter.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Twitter"
-              className="text-gray-500 transition-colors hover:text-indigo-600"
-            >
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="text-gray-500 transition-colors hover:text-indigo-600"
-            >
-              <Instagram className="h-5 w-5" />
-            </a>
-          </div>
-        </div>
-      </footer>
+      <footer className="relative border-t border-gray-200/60 bg-white/95 backdrop-blur-xl">
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-50/20 to-transparent"></div>
+            
+            <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 py-12 sm:flex-row">
+                {/* Copyright */}
+                <div className="text-sm font-semibold text-gray-600 tracking-wide">
+                    © {new Date().getFullYear()}{" "}
+                    <span className="font-black text-gray-900 bg-gradient-to-r from-indigo-600 to-indigo-700 bg-clip-text text-transparent">
+                        XpensaAI
+                    </span>
+                </div>
+                
+                {/* Navigation Links */}
+                <nav className="flex flex-wrap items-center justify-center gap-2">
+                    {[
+                        { to: "/about", text: "About" },
+                        { to: "/pricing", text: "Pricing" },
+                        { to: "/contact", text: "Contact" },
+                        { to: "/privacy", text: "Privacy Policy" }
+                    ].map((item, index) => (
+                        <Link
+                            key={item.text}
+                            to={item.to}
+                            className="relative px-4 py-2.5 rounded-2xl text-sm font-bold text-gray-600 hover:text-indigo-700 transition-all duration-300 group overflow-hidden"
+                            style={{ animationDelay: `${index * 50}ms` }}
+                        >
+                            {/* Background hover effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 to-indigo-100/50 scale-x-0 group-hover:scale-x-100 origin-center transition-transform duration-300 rounded-2xl"></div>
+                            
+                            {/* Text */}
+                            <span className="relative z-10">{item.text}</span>
+                            
+                            {/* Bottom accent line */}
+                            <div className="absolute bottom-1 left-1/2 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-indigo-600 group-hover:w-6 group-hover:left-1/2 group-hover:-translate-x-1/2 transition-all duration-300 rounded-full"></div>
+                            
+                            {/* Subtle glow */}
+                            <div className="absolute inset-0 bg-indigo-400/5 blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+                        </Link>
+                    ))}
+                </nav>
+                
+                {/* Social Links */}
+                <div className="flex items-center gap-3">
+                    {[
+                        { href: "https://www.linkedin.com", icon: Linkedin, label: "LinkedIn" },
+                        { href: "https://www.twitter.com", icon: Twitter, label: "Twitter" },
+                        { href: "https://www.instagram.com", icon: Instagram, label: "Instagram" }
+                    ].map((social, index) => (
+                        <a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={social.label}
+                            className="relative p-3 rounded-2xl text-gray-500 hover:text-indigo-600 transition-all duration-300 group overflow-hidden hover:scale-110"
+                            style={{ animationDelay: `${index * 100}ms` }}
+                        >
+                            {/* Background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 scale-90 group-hover:scale-100 transition-transform duration-300 rounded-2xl"></div>
+                            
+                            {/* Border ring */}
+                            <div className="absolute inset-0 rounded-2xl ring-1 ring-gray-200/60 group-hover:ring-indigo-300/60 transition-colors duration-300"></div>
+                            
+                            {/* Glow effect */}
+                            <div className="absolute inset-0 bg-indigo-400/10 blur-lg scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+                            
+                            {/* Icon */}
+                            <social.icon className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:rotate-6" />
+                            
+                            {/* Shimmer effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700 rounded-2xl"></div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+            
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
+            
+            {/* Floating particles effect */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-1/2 left-1/4 w-1 h-1 bg-indigo-300/30 rounded-full animate-pulse"></div>
+                <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-indigo-400/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute bottom-1/3 left-1/2 w-0.5 h-0.5 bg-indigo-300/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+            </div>
+        </footer>
     </main>
   );
 }
