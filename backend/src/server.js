@@ -24,7 +24,7 @@ console.log(process.env.OPEN_AI_KEY);
 
 const allowedOrigins = [
   "http://localhost:5173",              // Local frontend (for dev)
-  "https://expensefront1.netlify.app"  // Deployed frontend (for production)
+  "https://xpensaai.netlify.app/"  // Deployed frontend (for production)
 ];
 
 app.use(
